@@ -1,4 +1,4 @@
-package shared
+package chid
 
 // getIdOption is a function that modifies getIdOptions.
 type getIdOption func(*getIdOptions)
