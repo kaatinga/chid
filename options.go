@@ -6,15 +6,13 @@ type getIdOption func(*getIdOptions)
 // getIdOptions holds configuration for ID extraction.
 type getIdOptions struct {
 	idKey         string
-	bitSize       int
 	readFormValue bool
 }
 
 // defaultGetIdOptions returns the default options for ID extraction.
 func defaultGetIdOptions() getIdOptions {
 	return getIdOptions{
-		idKey:   "id",
-		bitSize: 64,
+		idKey: "id",
 	}
 }
 
@@ -22,13 +20,6 @@ func defaultGetIdOptions() getIdOptions {
 func WithIDKey(key string) getIdOption {
 	return func(o *getIdOptions) {
 		o.idKey = key
-	}
-}
-
-// WithBitSize sets a custom bit size for ID parsing.
-func WithBitSize(size int) getIdOption {
-	return func(o *getIdOptions) {
-		o.bitSize = size
 	}
 }
 
