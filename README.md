@@ -19,12 +19,12 @@ go get github.com/kaatinga/chid
 ```go
 import (
     "net/http"
-    "github.com/kaatinga/chid/shared"
+    "github.com/kaatinga/chid"
 )
 
 // Example handler using chi router
 func handler(w http.ResponseWriter, r *http.Request) {
-    id, err := shared.GetID[int64](r)
+    id, err := chid.GetID[int64](r)
     if err != nil {
         http.Error(w, err.Error(), http.StatusBadRequest)
         return
@@ -36,13 +36,12 @@ func handler(w http.ResponseWriter, r *http.Request) {
 ### Customization
 You can customize how the ID is extracted using options:
 
-- `shared.WithIDKey(key string)`: Use a custom key instead of the default "id"
-- `shared.WithBitSize(size int)`: Specify bit size (16, 32, or 64)
-- `shared.WithFormValue()`: Extract from form values instead of URL params
+- `chid.WithIDKey(key string)`: Use a custom key instead of the default "id"
+- `chid.WithFormOrQuery()`: Extract from form or query values instead of URL params
 
 **Example:**
 ```go
-id, err := shared.GetID[int32](r, shared.WithIDKey("user_id"), shared.WithBitSize(32), shared.WithFormValue())
+id, err := chid.GetID[int32](r, chid.WithIDKey("user_id"), chid.WithFormOrQuery())
 ```
 
 ## Error Handling
