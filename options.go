@@ -32,8 +32,8 @@ func WithBitSize(size int) getIdOption {
 	}
 }
 
-// WithFormValue configures extraction from form values instead of URL params.
-func WithFormValue() getIdOption {
+// WithFormOrQuery configures extraction from form/query values instead of URL parameters.
+func WithFormOrQuery() getIdOption {
 	return func(o *getIdOptions) {
 		o.readFormValue = true
 	}
