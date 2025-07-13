@@ -19,7 +19,7 @@ type getIDType interface {
 var ErrUnsupportedIDType = errors.New("unsupported id type")
 
 // GetID extracts and validates an integer ID from an HTTP request.
-// It supports int16, int32, and int64 types, and can read from URL params or form values.
+// It supports int16, int32, and int64 types, and can read from URL parameters, query or form values.
 // Options can be provided to customize the key, bit size, and source.
 func GetID[T getIDType](r *http.Request, optFns ...getIdOption) (T, error) {
 	var opts = defaultGetIdOptions()
@@ -40,6 +40,11 @@ func GetID[T getIDType](r *http.Request, optFns ...getIdOption) (T, error) {
 		return 0, ErrUnsupportedIDType
 	}
 
+	source := "url parameter"
+	if opts.readFormValue {
+		source = "form/query parameter"
+	}
+
 	var id int64
 	var err error
 	if opts.readFormValue {
@@ -48,17 +53,13 @@ func GetID[T getIDType](r *http.Request, optFns ...getIdOption) (T, error) {
 		id, err = strconv.ParseInt(strings.TrimSpace(chi.URLParam(r, opts.idKey)), 10, bitSize)
 	}
 	if err != nil {
-		source := "url parameter"
-		if opts.readFormValue {
-			source = "form value"
-		}
 		return 0, fmt.Errorf("unable to parse '%s' %s: %w", opts.idKey, source, err)
 	}
 	if id == 0 {
-		return 0, errors.New("'" + opts.idKey + "' == 0")
+		return 0, fmt.Errorf("'"+opts.idKey+"' %s == 0", source)
 	}
 	if id <= 0 {
-		return 0, errors.New("'" + opts.idKey + "' <= 0")
+		return 0, fmt.Errorf("'" + opts.idKey + "' %s <= 0")
 	}
 
 	return T(id), nil
