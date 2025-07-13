@@ -5,7 +5,7 @@ A small Go package for extracting and validating integer IDs from HTTP requests,
 ## Features
 - Extracts integer IDs from HTTP requests (URL params or form values)
 - Supports int16, int32, and int64 types
-- Customizable key, bit size, and source via options
+- Customizable key and source via options
 - Clear error handling for invalid or missing IDs
 
 ## Installation
