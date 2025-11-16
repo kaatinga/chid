@@ -59,7 +59,7 @@ func GetID[T getIDType](r *http.Request, optFns ...getIdOption) (T, error) {
 		return 0, fmt.Errorf("'"+opts.idKey+"' %s == 0", source)
 	}
 	if id <= 0 {
-		return 0, fmt.Errorf("'" + opts.idKey + "' %s <= 0")
+		return 0, fmt.Errorf("'"+opts.idKey+"' %s <= 0", source)
 	}
 
 	return T(id), nil
